@@ -18,5 +18,3 @@ for image in listdir(pathToPics + "Poisonous"):
     X.append([x for sets in list(im.getdata()) for x in sets])
     Y.append(0)
     im.close()
-
-# ya mommas a ho
