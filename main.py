@@ -20,6 +20,3 @@ for image in listdir(pathToPics + "Poisonous"):
     im.close()
 
 # ya mommas a ho
-
-
-
