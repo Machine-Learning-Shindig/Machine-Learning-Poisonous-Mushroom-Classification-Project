@@ -19,4 +19,3 @@ for image in listdir(pathToPics + "Poisonous"):
     Y.append(0)
     im.close()
 
-# testing in CNN
