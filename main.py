@@ -2,7 +2,7 @@ from PIL import Image
 from os import listdir
 from sklearn.neural_network import MLPClassifier
 
-pathToPics = "cnn/"
+pathToPics = "dataset/"
 
 X = [] # Inputs
 Y = [] # Ground truths
