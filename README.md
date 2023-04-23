@@ -7,3 +7,7 @@
 - Vaibhavi Jhawar
 - Benjamin Ung
 - Makarius Salib
+
+Resources to look at:
+https://www.freecodecamp.org/news/convolutional-neural-network-tutorial-for-beginners/
+
