@@ -1,21 +1,48 @@
-from PIL import Image
-from os import listdir
-from sklearn.neural_network import MLPClassifier
+import numpy as np
+import os
+import PIL
+import PIL.Image
+import tensorflow as tf
+import tensorflow_datasets as tfds
+import pathlib
+from datetime import datetime
 
-pathToPics = "cnn/"
+def main():
+    batch_size = 48
+    img_height = 277
+    img_width = 277
 
-X = [] # Inputs
-Y = [] # Ground truths
+    archive = "dataset"
+    data_dir = pathlib.Path(archive).with_suffix('')
 
-for image in listdir(pathToPics + "Edible"):
-    im = Image.open(pathToPics + "Edible/" + image, 'r')
-    X.append([x for sets in list(im.getdata()) for x in sets]) # Will add the list of RGB values
-    Y.append(1)
-    im.close()
+    train_ds = tf.keras.utils.image_dataset_from_directory(data_dir, validation_split=.2, subset="training", seed=123, image_size=(img_height, img_width), batch_size=batch_size)
+    val_ds = tf.keras.utils.image_dataset_from_directory(data_dir, validation_split=.2, subset="training", seed=123, image_size=(img_height, img_width), batch_size=batch_size)
+    
+    AUTOTUNE = tf.data.AUTOTUNE
+    train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
+    val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
-for image in listdir(pathToPics + "Poisonous"):
-    im = Image.open(pathToPics + "Poisonous/" + image, 'r')
-    X.append([x for sets in list(im.getdata()) for x in sets])
-    Y.append(0)
-    im.close()
 
+    model = tf.keras.Sequential([
+        tf.keras.layers.Rescaling(1./255),
+        tf.keras.layers.Dense(100, activation="relu"),
+        tf.keras.layers.Dense(1)
+    ])
+
+    model.compile(
+        optimizer="adam",
+        loss="binary_crossentropy",
+        metrics=["accuracy"]
+    )
+
+    model.fit(
+        train_ds,
+        validation_data=val_ds,
+        epochs=100
+    )
+
+    now = datetime.now()
+    model.save("models/mushroom_classifier_" + now.strftime("%m_%d_%Y"))
+
+if __name__ == "__main__":
+    main()
