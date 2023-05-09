@@ -88,7 +88,7 @@ while True:
             current = values["-FILE LIST-"][0]
             classification = detect_code.detect([current], 'inference/output')
 
-            # time.sleep(2)
+            time.sleep(2)
 
             actual = None
             
@@ -110,7 +110,7 @@ while True:
 
             #another open and close text file (inference file), set classified to the value in the text file 
 
-            window["-CLASSIFICATION-"].update("Classification: ".format(classification),visible=True)
+            window["-CLASSIFICATION-"].update("Classification: {}".format(classification),visible=True)
             window["-ACTUAL-"].update("Actual: {}".format(actual), visible=True)
         except:
             pass
