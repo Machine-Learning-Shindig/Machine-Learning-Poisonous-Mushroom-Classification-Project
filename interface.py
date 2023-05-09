@@ -91,7 +91,6 @@ while True:
             # time.sleep(2)
 
             actual = None
-            classified = None
             
             inference = "inference/output"
 
@@ -104,15 +103,14 @@ while True:
             modelInference = re.sub(r'.{3}$','jpg', modelInference)
 
             # print(textFile)
-            with open(textFile) as f, open(modelInference) as fi:
+            with open(textFile) as f:
                 actual = f.read()
-                classified = fi.read()
             print(actual)
-            print(classified)
+            print(classification)
 
             #another open and close text file (inference file), set classified to the value in the text file 
 
-            window["-CLASSIFICATION-"].update("Classification: ".format(classified),visible=True)
+            window["-CLASSIFICATION-"].update("Classification: ".format(classification),visible=True)
             window["-ACTUAL-"].update("Actual: {}".format(actual), visible=True)
         except:
             pass
