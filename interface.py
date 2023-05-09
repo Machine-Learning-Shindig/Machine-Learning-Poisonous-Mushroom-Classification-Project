@@ -41,8 +41,6 @@ image_viewer_column = [
     [sg.Text(size=(40, 1), key="-TOUT-")],
     [sg.Image(key="-IMAGE-")],
 ]
-
-
 # ----- Full layout -----
 layout = [
      [
@@ -80,21 +78,30 @@ while True:
             and f.lower().endswith((".png", ".gif"))
         ]
         window["-FILE LIST-"].update(fnames)
-    elif event == "-POISONOUS?-":
+    elif event == "-POISONOUS?-": #Put the terminal code here 
         try:
+
+            ###INSTRUCTIONS###
+
+            #bash script to run the model
+            #maybe a 2 second wait statement
+            #file path to results folder (inference folder)
+
             actual = None
+            classified = None
+
             dir = "demo_images/labels"
             current = values["-FILE LIST-"][0]
             replace = re.sub(r'demo_images/images','demo_images/labels', current)
             textFile = re.sub(r'.{3}$','txt', replace)
-            # filename = os.path.join(
-            #     dir, textFile
-            # )
+            
             print(textFile)
             with open(textFile) as f:
                 actual = f.read()
              
-            window["-CLASSIFICATION-"].update("Classification: ",visible=True)
+            #another open and close text file (inference file), set classified to the value in the text file 
+
+            window["-CLASSIFICATION-"].update("Classification: ".format(classified),visible=True)
             window["-ACTUAL-"].update("Actual: {}".format(actual), visible=True)
         except:
             pass
@@ -115,4 +122,3 @@ while True:
             pass
 
 window.close()
-
