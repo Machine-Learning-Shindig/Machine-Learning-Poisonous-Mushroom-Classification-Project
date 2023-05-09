@@ -88,7 +88,7 @@ while True:
             current = values["-FILE LIST-"][0]
             classification = detect_code.detect([current], 'inference/output')
 
-            time.sleep(2)
+            # time.sleep(2)
 
             actual = None
             classified = None
@@ -106,10 +106,14 @@ while True:
             # print(textFile)
             with open(textFile) as f:
                 actual = f.read()
+            f.close()
 
             with open(modelInference) as fi:
-                classified = f.read()
+                classified = fi.read()
+            fi.close()
             
+            print(actual)
+            print(classified)
 
             #another open and close text file (inference file), set classified to the value in the text file 
 
