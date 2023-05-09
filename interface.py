@@ -4,6 +4,8 @@ import PySimpleGUI as sg #pip3 install pysimplegui
 import os 
 from PIL import Image
 import re
+import detect_code
+import time
 
 # First the window layout in 2 columns
 def convertToPNG(path):
@@ -83,22 +85,32 @@ while True:
 
             ###INSTRUCTIONS###
 
-            #bash script to run the model
-            #maybe a 2 second wait statement
-            #file path to results folder (inference folder)
+            current = values["-FILE LIST-"][0]
+            classification = detect_code.detect([current], 'inference/output')
+
+            time.sleep(2)
 
             actual = None
             classified = None
+            
+            inference = "inference/output"
 
-            dir = "demo_images/labels"
-            current = values["-FILE LIST-"][0]
-            replace = re.sub(r'demo_images/images','demo_images/labels', current)
+            actualLabel = "demo_images/labels"
+
+            replace = re.sub(r'demo_images/images',actualLabel, current)
             textFile = re.sub(r'.{3}$','txt', replace)
             
-            print(textFile)
+            modelInference = re.sub(r'demo_images/images', inference, current)
+            modelInference = re.sub(r'.{3}$','jpg', modelInference)
+
+            # print(textFile)
             with open(textFile) as f:
                 actual = f.read()
-             
+
+            with open(modelInference) as fi:
+                classified = f.read()
+            
+
             #another open and close text file (inference file), set classified to the value in the text file 
 
             window["-CLASSIFICATION-"].update("Classification: ".format(classified),visible=True)
