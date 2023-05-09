@@ -104,14 +104,9 @@ while True:
             modelInference = re.sub(r'.{3}$','jpg', modelInference)
 
             # print(textFile)
-            with open(textFile) as f:
+            with open(textFile) as f, open(modelInference) as fi:
                 actual = f.read()
-            f.close()
-
-            with open(modelInference) as fi:
                 classified = fi.read()
-            fi.close()
-            
             print(actual)
             print(classified)
 
